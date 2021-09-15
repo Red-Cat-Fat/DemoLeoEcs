@@ -9,5 +9,6 @@ namespace UnityComponents.Common
 		public GameObject ObstaclePrefab;
 		public Vector3 GlobalGravitation;
 		public float SpawnTimer;
+		public Vector3 PlayerAddForce;
 	}
 }

@@ -21,20 +21,20 @@ sealed class EcsStartup : MonoBehaviour
 	private void Start()
 	{
 		_world = new EcsWorld();
-		_systems = new EcsSystems(_world);
-		_fixedSystem = new EcsSystems(_world);
+		_systems = new EcsSystems(_world, "UpdateSystems");
+		_fixedSystem = new EcsSystems(_world, "FixedUpdateSystems");
 		
 #if UNITY_EDITOR
 		Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(_world);
 		Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_systems);
 		Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_fixedSystem);
 #endif
+		EcsSystems inputSystems = InputSystems();
+		EcsSystems spawnSystems = SpawnSystems();
+		
 		_systems
-			.OneFrame<AnyKeyDownTag>()
-			.Add(new KeyInputSystem())
-			.Add(new SpawnPlayer())
-			.Add(new ObstacleSpawner())
-			.Add(new SpawnSystem())
+			.Add(inputSystems)
+			.Add(spawnSystems)
 			.Inject(_staticData)
 			.Inject(_sceneData)
 			.Init();
@@ -45,6 +45,24 @@ sealed class EcsStartup : MonoBehaviour
 			.Add(new UpdateRigidbodyPosition())
 			.Inject(_staticData)
 			.Init();
+	}
+
+	private EcsSystems SpawnSystems()
+	{
+		EcsSystems spawnSystems = new EcsSystems(_world)
+			.Add(new SpawnPlayer())
+			.Add(new ObstacleSpawner())
+			.Add(new SpawnSystem());
+		return spawnSystems;
+	}
+
+	private EcsSystems InputSystems()
+	{
+		EcsSystems inputSystems = new EcsSystems(_world)
+			.OneFrame<AnyKeyDownTag>()
+			.Add(new KeyInputSystem())
+			.Add(new AddVelocityInputSystem());
+		return inputSystems;
 	}
 
 	private void Update()

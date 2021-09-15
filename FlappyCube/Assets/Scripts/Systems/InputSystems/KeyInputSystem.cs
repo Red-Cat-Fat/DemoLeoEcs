@@ -1,4 +1,5 @@
 using Components.Common.Input;
+using Components.Objects.Tags;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -7,12 +8,20 @@ namespace Systems.InputSystems
 	public class KeyInputSystem : IEcsRunSystem
 	{
 		private EcsWorld _world = null;
+		private EcsFilter<PlayerTag> _filter = null;
 
 		public void Run()
 		{
-			if (Input.anyKeyDown)
+			var isHasInput = Input.anyKeyDown;
+			if (!isHasInput)
 			{
-				_world.NewEntity().Get<AnyKeyDownTag>(); //read it in DemoSystem
+				return;
+			}
+
+			foreach (int index in _filter)
+			{
+				ref EcsEntity entity = ref _filter.GetEntity(index);
+				entity.Get<AnyKeyDownTag>();
 			}
 		}
 	}
