@@ -1,4 +1,5 @@
 using Systems.Demo;
+using Systems.InputSystems;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ sealed class EcsStartup : MonoBehaviour
 		Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_systems);
 #endif
 		_systems
+			.Add(new KeyInputSystem())
 			.Add(new DemoSystem())
 			.Init();
 	}
