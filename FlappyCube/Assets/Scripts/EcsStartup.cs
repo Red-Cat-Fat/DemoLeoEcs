@@ -61,7 +61,8 @@ sealed class EcsStartup : MonoBehaviour
 		EcsSystems inputSystems = new EcsSystems(_world)
 			.OneFrame<AnyKeyDownTag>()
 			.Add(new KeyInputSystem())
-			.Add(new AddVelocityInputSystem());
+			.Add(new AddVelocityInputSystem())
+			.Add(new ClampVelocitySystem());
 		return inputSystems;
 	}
 

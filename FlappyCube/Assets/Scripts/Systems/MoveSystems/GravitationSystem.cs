@@ -19,7 +19,8 @@ namespace Systems.MoveSystems
 				ref EcsEntity entity = ref _filter.GetEntity(index); 
 				ref Velocity velocity = ref entity.Get<Velocity>();
 
-				velocity.Value -= _staticData.GlobalGravitation * deltaTime;
+				Vector3 addVelocity = _staticData.GlobalGravitation * deltaTime;
+				velocity.Value += addVelocity;
 			}
 		}
 	}

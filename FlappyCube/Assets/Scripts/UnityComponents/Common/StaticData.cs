@@ -10,5 +10,6 @@ namespace UnityComponents.Common
 		public Vector3 GlobalGravitation;
 		public float SpawnTimer;
 		public Vector3 PlayerAddForce;
+		public float ClampVelocity = 0.2f;
 	}
 }
