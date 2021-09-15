@@ -1,11 +1,18 @@
 using Systems.Demo;
 using Systems.InputSystems;
+using Systems.Spawners;
 using Components.Common.Input;
 using Leopotam.Ecs;
+using UnityComponents.Common;
 using UnityEngine;
 
 sealed class EcsStartup : MonoBehaviour
 {
+	[SerializeField]
+	private StaticData _staticData;
+	[SerializeField]
+	private SceneData _sceneData;
+	
 	private EcsWorld _world;
 	private EcsSystems _systems;
 
@@ -21,7 +28,11 @@ sealed class EcsStartup : MonoBehaviour
 		_systems
 			.OneFrame<AnyKeyDownTag>()
 			.Add(new KeyInputSystem())
+			.Add(new SpawnPlayer())
+			.Add(new SpawnSystem())
 			.Add(new DemoSystem())
+			.Inject(_staticData)
+			.Inject(_sceneData)
 			.Init();
 	}
 
