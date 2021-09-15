@@ -6,5 +6,6 @@ namespace UnityComponents.Common
 	public class SceneData : MonoBehaviour
 	{
 		public PrefabFactory Factory;
+		public Transform SpawnObstaclePosition;
 	}
 }

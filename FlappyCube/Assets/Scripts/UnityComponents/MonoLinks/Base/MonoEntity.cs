@@ -1,4 +1,7 @@
+using Components.Common.MonoLinks;
+using Components.Objects;
 using Leopotam.Ecs;
+using UnityEngine;
 
 namespace UnityComponents.MonoLinks.Base
 {
@@ -34,6 +37,9 @@ namespace UnityComponents.MonoLinks.Base
 				}
 				monoLink.Make(ref entity);
 			}
+
+			entity.Get<GameObjectLink>() = new GameObjectLink {Value = gameObject};
+			entity.Get<Position>() = new Position {Value = transform.position};
 		}
 	}
 }

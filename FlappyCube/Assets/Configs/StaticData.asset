@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 5459278560444011350, guid: aa2297bf732414241a5f00fc7472b36a,
     type: 3}
-  GlobalGravitation: {x: 0, y: 0.09, z: 0}
+  ObstaclePrefab: {fileID: 4808835954395513216, guid: b411483789a304defa015a30918482cb,
+    type: 3}
+  GlobalGravitation: {x: 0, y: 0.009, z: 0}
+  SpawnTimer: 2

@@ -6,6 +6,8 @@ namespace UnityComponents.Common
 	public class StaticData : ScriptableObject
 	{
 		public GameObject PlayerPrefab;
+		public GameObject ObstaclePrefab;
 		public Vector3 GlobalGravitation;
+		public float SpawnTimer;
 	}
 }

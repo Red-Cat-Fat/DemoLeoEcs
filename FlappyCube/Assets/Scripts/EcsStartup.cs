@@ -33,6 +33,7 @@ sealed class EcsStartup : MonoBehaviour
 			.OneFrame<AnyKeyDownTag>()
 			.Add(new KeyInputSystem())
 			.Add(new SpawnPlayer())
+			.Add(new ObstacleSpawner())
 			.Add(new SpawnSystem())
 			.Inject(_staticData)
 			.Inject(_sceneData)
