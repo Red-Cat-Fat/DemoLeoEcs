@@ -1,6 +1,7 @@
 using Components.Common;
 using Leopotam.Ecs;
 using UnityComponents.MonoLinks;
+using UnityComponents.MonoLinks.Base;
 using UnityEngine;
 
 namespace UnityComponents.Factories

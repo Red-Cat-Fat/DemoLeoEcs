@@ -1,7 +1,6 @@
 using Leopotam.Ecs;
-using UnityEngine;
 
-namespace UnityComponents.MonoLinks
+namespace UnityComponents.MonoLinks.Base
 {
 	public class MonoLink<T> : MonoLinkBase where T : struct
 	{
