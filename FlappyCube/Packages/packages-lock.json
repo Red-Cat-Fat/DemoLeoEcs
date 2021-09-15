@@ -1,5 +1,26 @@
 {
   "dependencies": {
+    "com.leopotam.ecs": {
+      "version": "https://github.com/Leopotam/ecs.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "97a605bc57543b3b89a7462d78c149e8b03943da"
+    },
+    "com.leopotam.ecs-ui": {
+      "version": "https://github.com/Leopotam/ecs-ui.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "27da845847bbb2727079074b6a18615912ffd08c"
+    },
+    "com.leopotam.ecs-unityintegration": {
+      "version": "https://github.com/Leopotam/ecs-unityintegration.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "127d6a8f02ec987ac724a7fc671b1d5d00b0ea56"
+    },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,
