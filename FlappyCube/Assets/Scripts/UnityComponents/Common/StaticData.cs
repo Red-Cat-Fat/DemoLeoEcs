@@ -6,5 +6,6 @@ namespace UnityComponents.Common
 	public class StaticData : ScriptableObject
 	{
 		public GameObject PlayerPrefab;
+		public Vector3 GlobalGravitation;
 	}
 }
