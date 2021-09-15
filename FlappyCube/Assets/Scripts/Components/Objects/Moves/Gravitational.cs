@@ -1,6 +1,6 @@
 using Leopotam.Ecs;
 
-namespace Systems.MoveSystems
+namespace Components.Objects.Moves
 {
 	public struct Gravitational : IEcsIgnoreInFilter
 	{
