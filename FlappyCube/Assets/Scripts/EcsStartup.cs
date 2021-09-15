@@ -1,3 +1,4 @@
+using Systems.Demo;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ sealed class EcsStartup : MonoBehaviour
 		Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_systems);
 #endif
 		_systems
+			.Add(new DemoSystem())
 			.Init();
 	}
 
