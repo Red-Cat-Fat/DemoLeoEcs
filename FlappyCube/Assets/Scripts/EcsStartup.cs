@@ -27,6 +27,7 @@ sealed class EcsStartup : MonoBehaviour
 	private EcsUiEmitter _uiEmitter;
 
 	private PauseService _pauseService;
+	private ScoreService _scoreService;
 	
 	private EcsWorld _world;
 	private EcsSystems _systems;
@@ -57,12 +58,8 @@ sealed class EcsStartup : MonoBehaviour
 
 	private void InitializedServices()
 	{
-		InitializePauseService(true);
-	}
-
-	private void InitializePauseService(bool startState)
-	{
-		_pauseService = new PauseService(startState);
+		_pauseService = new PauseService(true);
+		_scoreService = new ScoreService();
 	}
 	
 	private void OnChangePauseState(bool isPause)
@@ -93,6 +90,26 @@ sealed class EcsStartup : MonoBehaviour
 			.Inject(_sceneData)
 			.InjectUi(_uiEmitter)
 			.Inject(_pauseService)
+			.Inject(_scoreService)
+			.Init();
+	}
+
+	private void InitializeFixedSystems()
+	{
+		EcsSystems coreSystems = CoreGameplaySystems(Coregameplay);
+		EcsSystems scoreSystems = ScoreSystems();
+		EcsSystems movableSystems = MovableSystems(Movable);
+		
+		_fixedSystem
+			.Add(coreSystems)
+			.Add(scoreSystems)
+			.Add(movableSystems)
+			.OneFrame<OnCollisionEnterEvent>()
+			.OneFrame<OnTriggerEnterEvent>()
+			.Inject(_sceneData)
+			.Inject(_staticData)
+			.Inject(_pauseService)
+			.Inject(_scoreService)
 			.Init();
 	}
 
@@ -102,19 +119,12 @@ sealed class EcsStartup : MonoBehaviour
 			.Add(new UIGameProgressSystem());
 	}
 
-	private void InitializeFixedSystems()
+	private EcsSystems ScoreSystems()
 	{
-		EcsSystems coreSystems = CoreGameplaySystems(Coregameplay);
-		EcsSystems movableSystems = MovableSystems(Movable);
-
-		_fixedSystem
-			.Add(coreSystems)
-			.Add(movableSystems)
-			.OneFrame<OnCollisionEnterEvent>()
-			.Inject(_sceneData)
-			.Inject(_staticData)
-			.Inject(_pauseService)
-			.Init();
+		return new EcsSystems(_world)
+			.Add(new ScoreCounterSystem())
+			.OneFrame<OnObstacleExit>()
+			.Add(new ObstacleTriggerEnterCheckerSystem());
 	}
 
 	private void CalcSystemIndexes()
