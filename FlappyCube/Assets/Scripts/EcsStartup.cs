@@ -1,9 +1,13 @@
 using System;
+using Systems.CoreSystems.BaseGameplay;
 using Systems.Demo;
 using Systems.InputSystems;
 using Systems.MoveSystems;
 using Systems.Spawners;
 using Components.Common.Input;
+using Components.Core;
+using Components.GameStates.GameplayEvents;
+using Components.PhysicsEvents;
 using Leopotam.Ecs;
 using UnityComponents.Common;
 using UnityEngine;
@@ -39,31 +43,15 @@ sealed class EcsStartup : MonoBehaviour
 			.Inject(_sceneData)
 			.Init();
 
+		EcsSystems coreSystems = CoreGameplaySystems();
+		EcsSystems movableSystems = MovableSystems();
+		
 		_fixedSystem
-			.Add(new GravitationSystem())
-			.Add(new MoveSystem())
-			.Add(new UpdateRigidbodyPosition())
+			.Add(movableSystems)
+			.Add(coreSystems)
+			.OneFrame<OnCollisionEnterEvent>()
 			.Inject(_staticData)
 			.Init();
-	}
-
-	private EcsSystems SpawnSystems()
-	{
-		EcsSystems spawnSystems = new EcsSystems(_world)
-			.Add(new SpawnPlayer())
-			.Add(new ObstacleSpawner())
-			.Add(new SpawnSystem());
-		return spawnSystems;
-	}
-
-	private EcsSystems InputSystems()
-	{
-		EcsSystems inputSystems = new EcsSystems(_world)
-			.OneFrame<AnyKeyDownTag>()
-			.Add(new KeyInputSystem())
-			.Add(new AddVelocityInputSystem())
-			.Add(new ClampVelocitySystem());
-		return inputSystems;
 	}
 
 	private void Update()
@@ -89,5 +77,40 @@ sealed class EcsStartup : MonoBehaviour
 			_world.Destroy();
 			_world = null;
 		}
+	}
+
+	private EcsSystems SpawnSystems()
+	{
+		return new EcsSystems(_world)
+			.Add(new SpawnPlayer())
+			.Add(new ObstacleSpawner())
+			.Add(new SpawnSystem());;
+	}
+
+	private EcsSystems InputSystems()
+	{
+		return new EcsSystems(_world)
+			.OneFrame<AnyKeyDownTag>()
+			.Add(new KeyInputSystem())
+			.Add(new AddVelocityInputSystem())
+			.Add(new ClampVelocitySystem());;
+	}
+
+	private EcsSystems MovableSystems()
+	{
+		return new EcsSystems(_world)
+			.Add(new GravitationSystem())
+			.Add(new MoveSystem())
+			.Add(new UpdateRigidbodyPosition());
+	}
+
+	private EcsSystems CoreGameplaySystems()
+	{
+		return new EcsSystems(_world)
+			.OneFrame<OnObstacleCollisionEvent>()
+			.Add(new ObstacleCollisionCheckerSystem())
+			.OneFrame<DeadEvent>()
+			.Add(new DeadByObstacleCollisionSystem())
+			.Add(new DeadCheckerGameplaySystem());
 	}
 }
