@@ -1,6 +1,7 @@
 using Components.GameStates;
 using Components.GameStates.GameplayEvents;
 using Leopotam.Ecs;
+using Services;
 using UnityComponents.Common;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Systems.CoreSystems.BaseGameplay
 {
 	public class DeadCheckerGameplaySystem : IEcsInitSystem, IEcsRunSystem
 	{
+		private PauseService _pauseService;
 		private SceneData _sceneData;
 		private EcsWorld _world = null;
 		private EcsFilter<DeadEvent> _deadFilter = null;
@@ -30,6 +32,7 @@ namespace Systems.CoreSystems.BaseGameplay
 			{
 				ref GameProgress progress = ref _gameProgress.Get1(index);
 				progress.IsPause = true;
+				_pauseService.SetPause();
 				_sceneData.Hud.ShowGameOver();
 			}
 		}
