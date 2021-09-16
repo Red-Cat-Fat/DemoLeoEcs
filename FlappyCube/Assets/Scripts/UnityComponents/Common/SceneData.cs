@@ -7,5 +7,7 @@ namespace UnityComponents.Common
 	{
 		public PrefabFactory Factory;
 		public Transform SpawnObstaclePosition;
+
+		public GameHud Hud;
 	}
 }
