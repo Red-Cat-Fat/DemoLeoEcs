@@ -24,10 +24,11 @@ namespace Systems.Spawners
 			_lastTime += Time.deltaTime;
 			if (_lastTime > _spawnDelay)
 			{
+				var shiftVector = Vector3.up * Random.Range(-3f, 3f);
 				_world.NewEntity().Get<SpawnPrefab>() = new SpawnPrefab
 				{
 					Prefab = _staticData.ObstaclePrefab,
-					Position = _sceneData.SpawnObstaclePosition.position,
+					Position = _sceneData.SpawnObstaclePosition.position + shiftVector,
 					Rotation = Quaternion.identity,
 					Parent = _sceneData.SpawnObstaclePosition
 				};
